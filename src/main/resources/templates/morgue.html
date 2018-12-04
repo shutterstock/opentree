@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>[(${companyName})] OpenTree Morgue</title>
+        <!--/*/ <th:block th:include="fragments/head.html"></th:block> /*/-->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/morgue.css}"/>
+    </head>
+    <body>
+        <div id="bg"></div>
+        <div id="container">
+            <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
+            <h1 id="title"><span class="color-red">mor</span><span class="color-gray">gue</span></h1>
+            <div id="summary">
+                <span th:if="${#lists.size(employees) > 0}">[(${#lists.size(employees)})] Employees No Longer with Company</span>
+                <span th:if="${#lists.size(employees) == 0}">Everyone's still here!</span>
+            </div>
+            <div id="morgue">
+                <table th:if="${#lists.size(employees) > 0}" id="exEmployeeTable">
+                    <tr>
+                        <th>Name</th>
+                        <th>Manager</th>
+                        <th>Title</th>
+                        <th>Department</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Last Seen Around</th>
+                    </tr>
+                    <tr th:each="employee : ${employees}">
+                        <td th:text="${employee.name}"></td>
+                        <td th:text="${employee.managerName}"></td>
+                        <td th:text="${employee.title}"></td>
+                        <td>
+                            <a th:href="@{/filter(department=${employee.costCenter})}" th:text="${employee.costCenter}" />
+                        </td>
+                        <td th:text="${employee.location}"></td>
+                        <td th:text="${employee.type}"></td>
+                        <td th:text="${#dates.format(employee.lastUpdated, 'yyyy MMMM dd')}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

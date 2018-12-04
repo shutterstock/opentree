@@ -1,0 +1,88 @@
+body {
+    background: #888;
+}
+
+#bg {
+    background-size: 600px !important;
+    opacity: 0.3;
+    -webkit-background-size: cover;
+    background: #fff url("../img/skullandbones.png") no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+}
+
+#info {
+    margin-top: 15px;
+    float: right;
+}
+
+#info .link {
+    font-size: 14px;
+}
+
+#info .link a {
+    text-decoration: none;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+h1#title {
+    margin-top: 5px;
+    float: left;
+    clear: left;
+    margin-bottom: 10px;
+}
+
+#summary {
+    clear: left;
+    margin-bottom: 20px;
+}
+
+.color-red {
+    color: #d83432;
+}
+
+.color-gray {
+    color: #55565A;
+}
+
+table {
+    clear: left;
+    border-collapse: collapse;
+    font-family: 'Roboto', sans-serif;
+    opacity: .8;
+}
+
+#summary {
+    color: #CCC;
+}
+
+#exEmployeeTable td, #exEmployeeTable th {
+    border: 1px solid #eee;
+    padding: 5px;
+}
+
+#exEmployeeTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#exEmployeeTable tr:nth-child(odd) {
+    background-color: #AAA;
+}
+
+#exEmployeeTable th {
+    text-align: left;
+    background-color: #d83432;
+    color: #FFF;
+}
+
+#exEmployeeTable tr {
+    font-size: 12px;
+}

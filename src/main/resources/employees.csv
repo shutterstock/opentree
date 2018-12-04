@@ -1,0 +1,26 @@
+EmployeeID,Name,ManagerID,ManagerName,Location,Title,WorkEmail,Type,CostCenter,CostCenterHierarchy
+000001,John Doe,000001,John Doe,New York City,Chief Executive Officer,jdoe@superbigmegacorp.com,Employee,Office of the CEO,Administration
+000002,Zack Jones,000001,John Doe,New York City,Chief Technology Officer,zjones@superbigmegacorp.com,Employee,Office of the CEO,Engineering
+000003,Charles Montgomery Burns,000001,John Doe,New York City,Chief Financial Officer,cburns@superbigmegacorp.com,Employee,Office of the CEO,Administration
+000004,Valeria Dumont,000001,John Doe,New York City,Chief Operating Officer,vdumont@superbigmegacorp.com,Employee,Office of the CEO,Administration
+000005,Chris Fraser,000001,John Doe,New York City,General Counsel,cfraser@superbigmegacorp.com,Employee,Office of the CEO,Administration
+000006,Cleo Gubbins,000002,Zack Jones,New York City,VP Engineering,cgubbins@superbigmegacorp.com,Employee,Office of the CTO,Engineering
+000007,Bobby Alexrod,000002,Zack Jones,New York City,VP Engineering,baxelrod@superbigmegacorp.com,Employee,Office of the CTO,Engineering
+000008,Homer Compson,000003,Charles Montgomery Burns,New York City,VP Finance,hcompson@superbigmegacorp.com,Employee,Office of the CFO,Finance
+000009,Haruki Garcia,000003,Charles Montgomery Burns,New York City,VP Sales,hgarcia@superbigmegacorp.com,Employee,Office of the CFO,Sales
+000010,Gabriel Yamakaza,000004,Valeria Dumont,New York City,VP Product,gyamakaza@superbigmegacorp.com,Employee,Office of the COO,Product
+000011,Calista Krishnamurthy,000004,Valeria Dumont,New York City,VP Product,ckrishnamurthy@superbigmegacorp.com,Employee,Office of the COO,Product
+000012,Maureen Montevideo,000005,Chris Fraser,New York City,Assistant General Counsel,mmontevideo@superbigmegacorp.com,Employee,Office of the General Counsel,Legal
+000013,Jackson Berini,000005,Chris Fraser,New York City,Senior Counsel,jberini@superbigmegacorp.com,Employee,Office of the General Counsel,Legal
+000014,William Gatos,000006,Cleo Gubbins,New York City,"Senior Director, Engineering",wgatos@superbigmegacorp.com,Employee,Front-End Engineering Leadership,Engineering
+000015,Tracey Gastelum,000006,Cleo Gubbins,New York City,"Senior Director, Engineering",tgastelum@superbigmegacorp.com,Employee,Front-End Engineering Leadership,Engineering
+000016,Yingshao Hong,000007,Bobby Axelrod,New York City,"Senior Director, Engineering",yhong@superbigmegacorp.com,Employee,Infrastructure Engineering Leadership,Engineering
+000017,Morgan Lydstrom,000007,Bobby Axelrod,New York City,"Senior Director, Engineering",mlydstrom@superbigmegacorp.com,Employee,Infrastructure Engineering Leadership,Engineering
+C00001,Jeremy Hoosegow,000014,William Gatos,Remote,Software Engineer II,jhoosegow@superbigmegacorp.com,Contingent,Front-End Engineering,Engineering
+000018,Shaula Elle,000014,William Gatos,New York City,Software Engineer II,selle@superbigmegacorp.com,Employee,Front-End Engineering,Engineering
+C00002,Margaret Rosen,000015,Tracey Gastelum,Remote,Software Engineer III,mrosen@superbigmegacorp.com,Contingent,Front-End Engineering,Engineering
+000019,Wilford Hopkins,000015,Tracey Gastelum,New York City,Principal Software Engineer,whopkins@superbigmegacorp.com,Employee,Front-End Engineering,Engineering
+C00003,Arturo Li,000016,Yingshao Hong,New York City,Infrastructure Engineer II,ali@superbigmegacorp.com,Contingent,Infrastructure Engineering,Engineering
+000020,Amanda Higginbotham,000016,Yingshao Hong,New York City,Infrastructure Engineer III,ahigginbotham@superbigmegacorp.com,Employee,Infrastructure Engineering,Engineering
+C00004,Bruce Waymo,000017,Morgan Lydstrom,Remote,Cloud Platform Engineer,bwaymo@superbigmegacorp.com,Contingent,Infrastructure Engineering,Engineering
+000021,Danforth Hamptons,000017,Morgan Lydstrom,New York City,Infrastructure Architect,dhamptons@superbigmegacorp.com,Employee,Infrastructure Engineering,Engineering

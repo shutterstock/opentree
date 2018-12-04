@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>[(${companyName})] OpenTree Updates</title>
+    <!--/*/ <th:block th:include="fragments/head.html"></th:block> /*/-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/updates.css}"/>
+</head>
+<body>
+<div id="bg"></div>
+<div id="container">
+    <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
+    <h1 id="title"><span class="color-red">up</span><span class="color-gray">dates</span></h1>
+    <div id="summary">
+        <span th:if="${#maps.size(updateMap) > 0}">[(${#maps.size(updateMap)})] Employees with Updates</span>
+        <span th:if="${#maps.size(updateMap) == 0}">Nothing to see here!</span>
+    </div>
+    <div id="updates">
+        <table th:if="${#maps.size(updateMap) > 0}" id="updatesTable">
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Value Name</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+            </tr>
+            <tbody th:each="updateLists : ${updateMap}">
+                <tr>
+                    <td th:text="${updateLists.key.name}"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr th:each="eUpdates : ${updateLists.value}">
+                    <td></td>
+                    <td th:text="${#dates.format(eUpdates.createdAt, 'yyyy MMM dd')}"></td>
+                    <td th:text="${eUpdates.valueName}"></td>
+                    <td th:text="${eUpdates.oldValue}"></td>
+                    <td th:text="${eUpdates.newValue}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

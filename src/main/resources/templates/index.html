@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>[(${companyName})] OpenTree</title>
+        <!--/*/ <th:block th:include="fragments/head.html"></th:block> /*/-->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    </head>
+    <body>
+        <div id="container">
+            <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
+            <h1 id="title"><span class="color-red">org</span><span class="color-gray">chart</span></h1>
+            <div id="stats">
+                <div th:if="${!state.forSubtree()}">
+                    <span class="num_employees">[(${numEmployees})]</span>
+                    <span th:if="${state.forType()}">Full-Time</span> Employee<span th:if="${numEmployees != 1}">s</span>
+                    <span th:if="${state.forDepartment() and selectedDepartment != 'All'}">in department "[(${selectedDepartment})]" </span>
+                    <span th:if="${state.forTitle() and selectedTitle != 'All'}">with title "[(${selectedTitle})]" </span>
+                    <span th:if="${state.forLocation() and selectedLocation != 'All'}">in <span id="location">[(${selectedLocation})]</span></span>
+                    as of <span id="today" th:text="${#dates.format(today, 'MMM-dd-yyyy')}"></span>
+                </div>
+                <div th:if="${state.forSubtree()}">
+                    Tree for <span id="employee_name">[(${employeeName})]</span>
+                </div>
+            </div>
+            <div id="forms">
+                <form th:if="${!state.forSubtree()}" th:action="@{/filter}" method="GET" id="filter-form">
+                    <input th:if="${selectedDepartment}" th:type="hidden" th:value="${selectedDepartment}" th:id="selectedDepartment" />
+                    <input th:if="${selectedLocation}" th:type="hidden" th:value="${selectedLocation}" th:id="selectedLocation" />
+                    <input th:if="${selectedTitle}" th:type="hidden" th:value="${selectedTitle}" th:id="selectedTitle" />
+                    <div id="locations">
+                        <select id="location-control" th:name="location" th:id="location" onchange="locationFilter()">
+                            <option value="All">All Locations</option>
+                            <option th:each="location : ${locations}"
+                                    th:value="${location}"
+                                    th:text="${location}"
+                                    th:selected="${location == selectedLocation}">
+                            </option>
+                            <option th:value="Remote">Remote</option>
+                        </select>
+                    </div>
+                    <div id="departments">
+                        <select id="department-control" th:name="department" th:id="department" onchange="departmentFilter()">
+                            <option value="All">All Departments</option>
+                            <option th:each="department : ${departments}"
+                                    th:value="${department}"
+                                    th:text="${department}"
+                                    th:selected="${department == selectedDepartment}">
+                            </option>
+                        </select>
+                    </div>
+                    <div id="titles">
+                        <select id="title-control" th:name="title" th:id="title" onchange="titleFilter()">
+                            <option value="All">All Titles</option>
+                            <option th:each="title : ${titles}"
+                                    th:value="${title}"
+                                    th:text="${title}"
+                                    th:selected="${title == selectedTitle}">
+                            </option>
+                        </select>
+                    </div>
+                </form>
+                <form th:if="${!state.forNone()}" th:action="@{/reset}" method="GET" id="reset-form">
+                    <button id="reset-button" th:type="submit" th:name="reset" th:value="reset">Reset Filters</button>
+                </form>
+                <form th:if="${state.forNone()}" th:action="@{/filter}" method="GET" id="type-form">
+                    <div id="type-field">
+                        <input type="checkbox" class="checkbox" id="type-checkbox-field" name="type" value="Employee" onclick="employeeFilter()"/>
+                        <label for="type-checkbox-field" class="checkbox-label red-check" id="type-checkbox-label"><span></span>Only Full-Time</label>
+                    </div>
+                </form>
+            </div>
+            <script src="https://d3js.org/d3.v5.min.js"></script>
+            <script>
+                let index = [(${state.forNone()})];
+                let byDept = [(${state.forDepartment()})];
+                let byLocation = [(${state.forLocation()})];
+                let byTitle = [(${state.forTitle()})];
+                let treedata = [(${employees})];
+                let prefix = '[(${hangoutPrefix})]';
+
+                function locationFilter() {
+                    if ((index && document.getElementById("location").value !== "All") || !index)
+                        document.getElementById("filter-form").submit();
+                }
+
+                function departmentFilter() {
+                    if ((index && document.getElementById("department").value !== "All") || !index)
+                        document.getElementById("filter-form").submit();
+                }
+
+                function titleFilter() {
+                    if ((index && document.getElementById("title").value !== "All") || !index)
+                        document.getElementById("filter-form").submit();
+                }
+
+                function employeeFilter() {
+                    if (document.getElementById("type-checkbox-field").checked) {
+                        document.getElementById("type-form").submit();
+                    }
+                }
+
+                if ("children" in treedata && treedata["children"].length > 0) {
+                    var margin = {top: 20, right: 120, bottom: 20, left: 5},
+                        width = 1500 - margin.right - margin.left,
+                        height = 8500 - margin.top - margin.bottom;
+
+                    var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+
+                    var svg = d3.select("body").append("svg")
+                        .attr("width", width + margin.right + margin.left)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                    var i = 0, duration = 500;
+                    var tree = d3.tree().size([height, width]);
+                    var root = d3.hierarchy(treedata, function (d) {
+                        return d.children;
+                    });
+                    root.x0 = height / 2;
+                    root.y0 = 0;
+                    update(root);
+
+                    function update(source) {
+                        // compute the new height
+                        let levelWidth = [1];
+                        let childCount = function (level, n) {
+                            if (n.children && n.children.length > 0) {
+                                if (levelWidth.length <= level + 1) levelWidth.push(0);
+                                levelWidth[level + 1] += n.children.length;
+                                n.children.forEach(function (d) {
+                                    childCount(level + 1, d);
+                                });
+                            }
+                        };
+                        childCount(0, root);
+                        let newHeight = d3.max(levelWidth) * 20;
+                        tree = tree.size([newHeight, width]);
+                        d3.select("svg").remove();
+
+                        tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+
+                        svg = d3.select("body").append("svg")
+                            .attr("width", width + margin.right + margin.left)
+                            .attr("height", newHeight + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                        // Assigns the x and y position for the nodes
+                        let treeData = tree(root);
+
+                        // Compute the new tree layout.
+                        let nodes = treeData.descendants(),
+                            links = treeData.descendants().slice(1);
+
+                        // Normalize for fixed-depth.
+                        nodes.forEach(function (d) {
+                            d.y = d.depth * 180
+                        });
+
+                        // ****************** Nodes section ***************************
+
+                        // Update the nodes...
+                        let node = svg.selectAll('g.node').data(nodes, function (d) {
+                            return d.id || (d.id = ++i);
+                        });
+
+                        // Enter any new modes at the parent's previous position.
+                        let nodeEnter = node.enter().append('g').attr('class', 'node')
+                            .attr("transform", function (d) {
+                                return "translate(" + source.y0 + "," + source.x0 + ")";
+                            })
+                            .on('click', click);
+
+                        // Add Circle for the nodes
+                        nodeEnter.append('circle').attr('class', 'node').attr('r', 1e-6)
+                            .style("fill", function (d) {
+                                return d._children ? "#d83432" : "#FFF";
+                            })
+                            .style("stroke", "#d83432")
+                            .on('mouseover.tooltip', function (d) {
+                                if (d.data.name !== "Placeholder") {
+                                    tooltip.transition().duration(300).style("opacity", 1);
+                                    tooltip.html('<div class="userdata' + ((d.data.type !== "Employee") ? " contingent\"" : "\"") + ">" +
+                                        '<span class="fieldname">Name:</span> <span class="fieldvalue">' + d.data.name + '</span><br />'
+                                        + '<span class="fieldname">Title:</span> <span class="fieldvalue">' + d.data.title + '</span><br />'
+                                        + '<span class="fieldname">Department:</span> <span class="fieldvalue"><a href="/filter?department=' + escape(d.data.costCenter).replace(/%20/g, "+") + '">' + d.data.costCenter + '</a></span><br />'
+                                        + '<span class="fieldname">Location:</span> <span class="fieldvalue"><a href="/filter?location=' + escape(d.data.location).replace(/%20/g, "+") + '">' + d.data.location + '</a></span><br />'
+                                        + ((!index)
+                                                ? '<span class="fieldname">Manager:</span> <span class="fieldvalue">' + d.data.managerName + '</span><br />'
+                                                : ""
+                                        )
+                                        + ((d.data.type === "Employee")
+                                            ? '<span class="fieldname">Email:</span> <span class="fieldvalue"><a href="mailto:' + d.data.email + '">' + d.data.email + '</a></span><br />'
+                                            + ((d.data.type === "Employee") ? '<span class="fieldname">Hangout:</span> <span class="fieldvalue"><a target="_blank" href="' + prefix + d.data.email.substring(0, d.data.email.indexOf('@')) + '">Link</a></span><br />' : "")
+                                            + '<span class="fieldname">Subtree:</span> <span class="fieldvalue"><a href="/filter?subtree=' + d.data.email.substring(0, d.data.email.indexOf('@')) + '">View</a><span><br />'
+                                            : '')
+                                        + '</div>')
+                                        .style("left", (d3.event.pageX + 10) + "px")
+                                        .style("top", (d3.event.pageY - 50) + "px");
+                                } else if (byDept) {
+                                    tooltip.transition().duration(300).style("opacity", 1);
+                                    tooltip.html(
+                                        '<span class="fieldname">Department:</span> <span class="fieldvalue">' + '[(${selectedDepartment})]' + '</span>')
+                                        .style("left", (d3.event.pageX + 10) + "px")
+                                        .style("top", (d3.event.pageY - 50) + "px");
+                                } else if (byLocation) {
+                                    tooltip.transition().duration(300).style("opacity", 1);
+                                    tooltip.html(
+                                        '<span class="fieldname">Location:</span> <span class="fieldvalue">' + '[(${selectedLocation})]' + '</span>')
+                                        .style("left", (d3.event.pageX + 10) + "px")
+                                        .style("top", (d3.event.pageY - 50) + "px");
+                                } else if (byTitle) {
+                                    tooltip.transition().duration(300).style("opacity", 1);
+                                    tooltip.html(
+                                        '<span class="fieldname">Title:</span> <span class="fieldvalue">' + '[(${selectedTitle})]' + '</span>')
+                                        .style("left", (d3.event.pageX + 10) + "px")
+                                        .style("top", (d3.event.pageY - 50) + "px");
+                                }
+                            })
+                            .on('mouseover.fade', fade(0.1))
+                            .on('mouseout.tooltip', function () {
+                                tooltip.transition().duration(3500).style("opacity", 0);
+                            })
+                            .on('mouseout.fade', fade(1))
+                            .on('click', function () {
+                                tooltip.transition().duration(100).style("opacity", 0);
+                            });
+
+                        // Add labels for the nodes
+                        nodeEnter.append('text').attr("dy", ".35em")
+                            .attr("x", function (d) {
+                                return d.children || d._children ? -13 : 13;
+                            })
+                            .attr("text-anchor", function (d) {
+                                return d.children || d._children ? "end" : "start";
+                            })
+                            .text(function (d) {
+                                return d.data.name;
+                            });
+
+                        // UPDATE
+                        let nodeUpdate = nodeEnter.merge(node);
+
+                        // Transition to the proper position for the node
+                        nodeUpdate.transition().duration(duration)
+                            .attr("transform", function (d) {
+                                return "translate(" + d.y + "," + d.x + ")";
+                            });
+
+                        // Update the node attributes and style
+                        nodeUpdate.select('circle.node').attr('r', 5).style("stroke", "#d83432").attr('cursor', 'pointer')
+                            .style("fill", function (d) {
+                                return d._children ? "#d83432" : "#FFF";
+                            });
+
+                        // Remove any exiting nodes
+                        let nodeExit = node.exit().transition().duration(duration)
+                            .attr("transform", function (d) {
+                                return "translate(" + source.y + "," + source.x + ")";
+                            })
+                            .remove();
+
+                        // On exit reduce the node circles size to 0
+                        nodeExit.select('circle').attr('r', 1e-6);
+
+                        // On exit reduce the opacity of text labels
+                        nodeExit.select('text').style('fill-opacity', 1e-6);
+
+                        // ****************** links section ***************************
+                        // Update the links...
+                        let link = svg.selectAll('path.link').data(links, function (d) {
+                            return d.id;
+                        });
+
+                        // Enter any new links at the parent's previous position.
+                        let linkEnter = link.enter().insert('path', "g").attr("class", "link")
+                            .attr('d', function (d) {
+                                let o = {x: source.x0, y: source.y0};
+                                return diagonal(o, o);
+                            });
+
+                        // UPDATE
+                        let linkUpdate = linkEnter.merge(link);
+
+                        // Transition back to the parent element position
+                        linkUpdate.transition().duration(duration)
+                            .attr('d', function (d) {
+                                return diagonal(d, d.parent)
+                            });
+
+                        // Remove any exiting links
+                        let linkExit = link.exit().transition().duration(duration)
+                            .attr('d', function (d) {
+                                let o = {x: source.x, y: source.y};
+                                return diagonal(o, o);
+                            })
+                            .remove();
+
+                        // Store the old positions for transition.
+                        nodes.forEach(function (d) {
+                            d.x0 = d.x;
+                            d.y0 = d.y;
+                        });
+
+                        // Creates a curved (diagonal) path from parent to the child nodes
+                        function diagonal(s, d) {
+                            path = `M ${s.y} ${s.x}
+                                C ${(s.y + d.y) / 2} ${s.x},
+                                  ${(s.y + d.y) / 2} ${d.x},
+                                  ${d.y} ${d.x}`;
+                            return path
+                        }
+
+                        // Toggle children on click.
+                        function click(d) {
+                            if (d.children) {
+                                d._children = d.children;
+                                d.children = null;
+                            } else {
+                                d.children = d._children;
+                                d._children = null;
+                            }
+                            update(d);
+                        }
+
+                        //Fade rules for hovering over nodes
+                        function fade(opacity) {
+                            return d => {
+                                node.style('stroke-opacity', function (o) {
+                                    const thisOpacity = isConnected(d, o) ? 1 : opacity;
+                                    this.setAttribute('fill-opacity', thisOpacity);
+                                    return thisOpacity;
+                                });
+                                link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
+                            };
+                        }
+                    }
+                }
+            </script>
+        </div>
+    </body>
+</html>

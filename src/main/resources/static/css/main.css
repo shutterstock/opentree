@@ -1,0 +1,123 @@
+#stats {
+    clear: left;
+    color: #888;
+}
+
+#forms {
+    margin-top: 5px;
+    color: #888;
+}
+
+#info {
+    margin-top: 15px;
+    float: right;
+}
+
+#info .link {
+    font-size: 14px;
+}
+
+#info .link a {
+    text-decoration: none;
+}
+
+#filter-form, #type-form, #reset-form {
+    display: inline-block;
+}
+
+#type-field {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+#locations, #departments, #titles, #reset-button {
+    /*-webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;*/
+    display: inline-block;
+}
+
+select {
+    border: none;
+    font-size: 12px;
+    height: 20px;
+    color: #FFF;
+    background-color: #d83432;
+}
+
+#reset-button {
+    font-size: 12px;
+    height: 20px;
+    color: #FFF;
+    background-color: #298AAE;
+    border: none;
+}
+
+#locations select {
+    width: 140px;
+}
+
+#departments select, #titles select {
+    width: 240px;
+}
+
+#type-field {
+    display: inline-block;
+}
+
+.color-red {
+    color: #d83432;
+}
+
+.color-gray {
+    color: #55565A;
+}
+
+.node circle {
+    fill: #555;
+    stroke: #000;
+}
+
+.node text {
+    font: 10px 'Roboto';
+    font-weight: 400;
+}
+
+.node--internal circle {
+    fill: #d83432;
+}
+
+.node--internal text {
+    text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+
+.link {
+    fill: none;
+    stroke: #555;
+    stroke-opacity: 0.4;
+    stroke-width: 1.5px;
+}
+
+div.tooltip {
+    font: 12px 'Roboto';
+    position: absolute;
+    background-color: white;
+    height: auto;
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, .5);
+    min-width: 210px;
+}
+
+.contingent .fieldvalue {
+    color: #aaa;
+}
+
+.fieldname {
+    font-weight: 700;
+    width: 75px;
+    float: left;
+    color: #d83432;
+}

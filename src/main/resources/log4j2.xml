@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="warn" name="OpenTree" packages="">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d %highlight{[%5p]}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=blue, DEBUG=blue bold, TRACE=light blue} [%15.15t] %style{%-40.40c{1.}}{yellow} [L:%L] %M - %m%n
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.shutterstock.oss.opentree" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.hibernate" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.springframework.boot" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.springframework.beans" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.springframework.context" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.springframework.web" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.springframework.http" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.springframework.transaction" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="com.zaxxer.hikari" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="com.fasterxml.jackson" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Logger name="org.thymeleaf.spring5" level="error" additivity="false">
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+
+        <Root level="warn">
+            <AppenderRef ref="ConsoleAppender" />
+        </Root>
+    </Loggers>
+</Configuration>

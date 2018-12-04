@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>[(${companyName})] OpenTree Employee Dump</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+        <style>
+            body {
+                font: 12px 'Roboto', sans-serif;
+            }
+            table {
+                border: none;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>id,</th>
+                <th>name,</th>
+                <th>manager_id,</th>
+                <th>manager,</th>
+                <th>location,</th>
+                <th>title,</th>
+                <th>email,</th>
+                <th>type,</th>
+                <th>cost_center,</th>
+                <th>cost_center_hierarchy,</th>
+                <th>active,</th>
+                <th>last_updated</th>
+            </tr>
+            <tr th:each="employee : ${employees}">
+                <td>
+                    <span th:text="${employee.employeeId}"></span>,
+                </td>
+                <td>
+                    "<span th:text="${employee.name}"></span>",
+                </td>
+                <td>
+                    <span th:text="${employee.managerId}"></span>,
+                </td>
+                <td>
+                    "<span th:text="${employee.managerName}"></span>"
+                </td>
+                <td>
+                    "<span th:text="${employee.location}"></span>",
+                </td>
+                <td>
+                    "<span th:text="${employee.title}"></span>",
+                </td>
+                <td>
+                    <span th:text="${employee.email}"></span>,
+                </td>
+                <td>
+                    <span th:text="${employee.type}"></span>,
+                </td>
+                <td>
+                    "<span th:text="${employee.costCenter}"></span>",
+                </td>
+                <td>
+                    "<span th:text="${employee.costCenterHierarchy}"></span>",
+                </td>
+                <td>
+                    <span th:text="${employee.active}"></span>,
+                </td>
+                <td>
+                    "<span th:text="${employee.lastUpdated}"></span>"
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

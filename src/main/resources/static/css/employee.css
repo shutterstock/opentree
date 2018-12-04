@@ -1,0 +1,63 @@
+#info {
+    margin-top: 15px;
+    float: right;
+}
+
+#info .link {
+    font-size: 14px;
+}
+
+#info .link a {
+    text-decoration: none;
+}
+
+.color-red {
+    color: #d83432;
+}
+
+.color-gray {
+    color: #55565A;
+}
+
+
+table {
+    clear: left;
+    border-collapse: collapse;
+    font-family: 'Roboto', sans-serif;
+    opacity: .8;
+}
+
+#summary {
+    color: #888;
+    clear: left;
+}
+
+#updates {
+    margin-top: 10px;
+}
+
+#employeeTable td, #employeeTable th {
+    padding: 2px;
+}
+
+#tableHeader tr {
+    height: 23px;
+}
+
+#employeeTable .idColumn input {
+    width: 50px;
+}
+
+#employeeTable tr:nth-child(odd) {
+    background-color: #AAA;
+}
+
+#employeeTable th {
+    text-align: left;
+    background-color: #d83432;
+    color: #FFF;
+}
+
+#employeeTable tr {
+    font-size: 12px;
+}
