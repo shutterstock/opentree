@@ -1,0 +1,29 @@
+/logs/
+/lib/
+/target/
+/target/classes
+/target/generated-sources
+/target/maven-archiver
+/target/maven-status
+.DS_Store
+.mvn
+.vscode
+
+!.mvn/wrapper/maven-wrapper.jar
+.mvnw
+.mvnw.cmd
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

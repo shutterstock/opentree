@@ -100,7 +100,7 @@ Several URL mappings exist to provide light, administrative functionality, manag
 * `/admin/dumpcache`: this will dump the contents of the cache as a hierarchical JSON document
 * `/admin/morgue`: (view: [`morgue.html`](src/main/resources/templates/morgue.html)) this will display a list of all employees who are no longer with the company (since the database was first created and populated)
 
-As state is managed by the database, any drops or restarts in the Docker container will result in loss of historical state (e.g. updates, attrition). This will happen be default if the database pre-configured with the Docker image is not replaced with an externalized database and each time it is run. However, this has no impact on the ability to display the current org chart.
+As state is managed by the database, any drops or restarts in the Docker container will result in loss of historical state (e.g. updates, attrition). This will happen by default each time it is restarted if the database pre-configured with the Docker image is not replaced with an externalized database. However, this has no impact on its ability to display the current org chart.
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
