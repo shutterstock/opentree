@@ -9,11 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
-    List<Employee> findAllByActiveOrderByEmployeeIdAsc(boolean active);
     List<Employee> findAllByOrderByEmployeeIdAsc();
     @Query("SELECT DISTINCT e FROM Employee e WHERE e.email=?1 AND e.active = TRUE")
     Employee findByEmail(String email);
-    void deleteByEmployeeId(String id);
+    List<Employee> findAllByActiveEquals(boolean active);
 
     @Query("SELECT COUNT(e) FROM Employee e WHERE e.active = TRUE")
     long countActiveEmployees();
