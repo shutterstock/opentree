@@ -123,25 +123,23 @@ public class EmployeeService {
             List<Employee> addedEmployees = getListDifference(latestEmployeeList, priorEmployeeList);
             logger.debug("# of new employees: " + addedEmployees.size());
             if (addedEmployees.size() > 0) {
-                addedEmployees.forEach(e -> {
-                    e.setActive(true);
-                    e.setCreatedAt(new Date());
-                    e.setLastUpdated(new Date());
-                });
-                employeeRepository.saveAll(addedEmployees);
-                employeeRepository.flush();
+                processEmployees(addedEmployees);
             }
         } else {
             logger.debug("initial insertion of employees");
-            latestEmployeeSet.forEach(e -> {
-                e.setActive(true);
-                e.setCreatedAt(new Date());
-                e.setLastUpdated(new Date());
-            });
-            employeeRepository.saveAll(latestEmployeeSet);
-            employeeRepository.flush();
+            processEmployees(latestEmployeeList);
         }
         return treeBuilder.build(employeeRepository.findByActiveOrderByLastUpdatedDesc(true)).getTree();
+    }
+
+    private void processEmployees(List<Employee> emps) {
+        emps.forEach(e -> {
+            e.setActive(true);
+            e.setCreatedAt(new Date());
+            e.setLastUpdated(new Date());
+        });
+        employeeRepository.saveAll(emps);
+        employeeRepository.flush();
     }
 
     /**
@@ -221,20 +219,28 @@ public class EmployeeService {
     public String getEmployees(String location, String department, String title) {
         logger.debug("getting employees for\n\t:location: " + location + "\n\tdepartment: " + department + "\n\ttitle: " + title);
         List<Employee> employees;
-        if (location.equals("All") && department.equals("All"))
+        if (location.equals("All") && department.equals("All") && !title.equals("All")) {
+            logger.debug("getEmployees() -> title only");
             employees = employeeRepository.findByTitle(title);
-        else if (location.equals("All") && title.equals("All"))
+        } else if (location.equals("All") && !department.equals("All") && title.equals("All")) {
+            logger.debug("getEmployees() -> department only");
             employees = employeeRepository.findByCostCenter(department);
-        else if (department.equals("All") && title.equals("All"))
+        } else if (!location.equals("All") && department.equals("All") && title.equals("All")) {
+            logger.debug("getEmployees() -> location only");
             employees = employeeRepository.findByLocation(location);
-        else if (!department.equals("All") && !title.equals("All"))
+        } else if (location.equals("All") && !department.equals("All") && !title.equals("All")) {
+            logger.debug("getEmployees() -> department && title");
             employees = employeeRepository.findByCostCenterAndTitle(department, title);
-        else if (!location.equals("All") && !title.equals("All"))
+        } else if (!location.equals("All") && department.equals("All") && !title.equals("All")) {
+            logger.debug("getEmployees() -> location && title");
             employees = employeeRepository.findByLocationAndTitle(location, title);
-        else if (!department.equals("All") && !location.equals("All"))
+        } else if (!location.equals("All") && !department.equals("All") && title.equals("All")) {
+            logger.debug("getEmployees() -> location && department");
             employees = employeeRepository.findByCostCenterAndLocation(department, location);
-        else
+        } else { // all selected
+            logger.debug("getEmployees() -> by all attributes");
             employees = employeeRepository.findByLocationAndCostCenterAndTitle(location, department, title);
+        }
         return treeBuilder.build(employees).getTree();
     }
 
@@ -273,7 +279,7 @@ public class EmployeeService {
             email = ldap + "@" + emailDomain;
         logger.debug("getting employees for: " + email);
         Employee e = employeeRepository.findByEmail(email);
-        List<Employee> employees = new ArrayList<>(employeeRepository.findAll());
+        List<Employee> employees = new ArrayList<>(employeeRepository.findAllByActiveEquals(true));
         return treeBuilder.build(employees, e).getTree();
     }
 
@@ -290,19 +296,31 @@ public class EmployeeService {
     }
 
     public long getNumberOfEmployees(String location, String department, String title) {
-        if (location.equals("All") && department.equals("All"))
+        if (location.equals("All") && department.equals("All") && !title.equals("All")) {
+            logger.debug("getNumberOfEmployees() -> title only");
             return employeeRepository.countByTitle(title);
-        if (location.equals("All") && title.equals("All"))
+        }
+        if (location.equals("All") && !department.equals("All") && title.equals("All")) {
+            logger.debug("getNumberOfEmployees() -> department only");
             return employeeRepository.countByCostCenter(department);
-        if (department.equals("All") && title.equals("All"))
+        }
+        if (!location.equals("All") && department.equals("All") && title.equals("All")) {
+            logger.debug("getNumberOfEmployees() -> location only");
             return employeeRepository.countByLocation(location);
-        if (!department.equals("All") && !title.equals("All"))
+        }
+        if (location.equals("All") && !department.equals("All") && !title.equals("All")) {
+            logger.debug("getNumberOfEmployees() -> department && title");
             return employeeRepository.countByCostCenterAndTitle(department, title);
-        if (!location.equals("All") && !title.equals("All"))
+        }
+        if (!location.equals("All") && department.equals("All") && !title.equals("All")) {
+            logger.debug("getNumberOfEmployees() -> location && title");
             return employeeRepository.countByLocationAndTitle(location, title);
-        if (!department.equals("All") && !location.equals("All"))
+        }
+        if (!location.equals("All") && !department.equals("All") && title.equals("All")) {
+            logger.debug("getNumberOfEmployees() -> location && department");
             return employeeRepository.countByCostCenterAndLocation(department, location);
-
+        }
+        logger.debug("getNumberOfEmployees() -> by all attributes");
         return employeeRepository.countEmployeeByLocationAndCostCenterAndTitle(location, department, title);
     }
 
