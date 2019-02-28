@@ -17,7 +17,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     @Query("SELECT COUNT(e) FROM Employee e WHERE e.active = TRUE")
     long countActiveEmployees();
 
-    @Query("SELECT DISTINCT location FROM Employee WHERE location NOT LIKE '%REMOTE%' AND active = TRUE")
+    @Query("SELECT DISTINCT location FROM Employee WHERE location NOT LIKE '%REMOTE%' AND active = TRUE ORDER BY location")
     List<String> findDistinctLocations();
 
     @Query("SELECT DISTINCT title FROM Employee WHERE active = TRUE ORDER BY title")
