@@ -92,12 +92,19 @@ public class WorkdayDataService {
 
         Iterator<Employee> employeeIterator = csvToEmployee.iterator();
         List<Employee> results = new ArrayList<>();
-        while (employeeIterator.hasNext())
-            results.add(employeeIterator.next());
+        try {
+            while (employeeIterator.hasNext())
+                results.add(employeeIterator.next());
+        } catch (Exception ex) {
+            logger.error(ex);
+        }
 
-        if (results.isEmpty())
+        if (results.isEmpty()) {
+            logger.warn("no employee beans converted");
             return null;
-        else
+        } else {
+            logger.debug("returning " + results.size() + " employees from csv");
             return results;
+        }
     }
 }
