@@ -88,6 +88,7 @@ public class WorkdayDataService {
         CsvToBean<Employee> csvToEmployee = new CsvToBeanBuilder<Employee>(new StringReader(csvRecords))
                 .withType(Employee.class)
                 .withIgnoreLeadingWhiteSpace(true)
+                .withThrowExceptions(false)
                 .build();
 
         Iterator<Employee> employeeIterator = csvToEmployee.iterator();
