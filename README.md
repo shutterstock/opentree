@@ -12,6 +12,8 @@
 ## Purpose
 tl;dr Generate and render your company's org chart based on Workday data (or any flat, row-based dataset which uses identifiers to link child nodes to single parents).
 
+Blog post [here](https://tech.shutterstock.com/2018/12/11/opentree-visualizing-organizations).
+
 Individuals who use [Workday](https://workday.com) can view the supervisory org that they manage or that they're part of, and can otherwise navigate stepwise up and down the org, but there is no built-in capability within Workday to view a company-wide, comprehensive org chart. Visibility into an organization's overall structure is a valuable resource for employees across a company. This project uses Workday data and generates a hierarchical org chart rendered on a web page.
 
 The application provides filtering options to view subtrees and filter by location, department (cost center), and title.
