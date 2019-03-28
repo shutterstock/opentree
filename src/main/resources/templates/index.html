@@ -236,7 +236,7 @@
                                 return d.children || d._children ? "end" : "start";
                             })
                             .text(function (d) {
-                                return d.data.name;
+                                return d.data.name + ((d.data.numChildren ? ' [' + d.data.numChildren + ']' : ""));
                             });
 
                         // UPDATE

@@ -97,6 +97,7 @@ public class TreeBuilder {
         if (children != null) {
             for (final JsonNode n : children) {
                 ArrayNode childrenNode = ((ObjectNode) node).withArray("children");
+                ((ObjectNode) node).put("numChildren", children.size());
                 if (childrenNode != null && childrenNode.isArray()) {
                     childrenNode.add(processNode(n));
                 } else {
