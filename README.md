@@ -57,7 +57,7 @@ The views use the [Thymeleaf templating engine](https://www.thymeleaf.org/) and 
 
 ## Setup
 A custom report endpoint must be setup in Workday to generate a CSV report with the desired fields you wish to render on the front-end. By default, the following fields are used and displayed in the front-end:
-* `EmployeeID`: used as the unique identifier for a given employee. This field *must* be unique for the tree to link nodes and build correctly. Matrix reporting (where an Employee has multiple records in the CSV report, each with a distinct `MmanagerID`) is not supported
+* `EmployeeID`: used as the unique identifier for a given employee. This field *must* be unique for the tree to link nodes and build correctly. Matrix reporting (where an Employee has multiple records in the CSV report, each with a distinct `ManagerID`) is not supported
 * `Name`: full name of the employee
 * `ManagerID`: the `EmployeeID` of the employee's manager 
 * `ManagerName`: full name of the manager
