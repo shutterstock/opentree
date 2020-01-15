@@ -119,20 +119,21 @@ public class TreeBuilder {
     }
 
     private static JsonNode getNodeFromEmployee(Employee e) {
-        JsonNode node = mapper.createObjectNode();
-        ((ObjectNode) node).put("id", e.getEmployeeId());
-        ((ObjectNode) node).put("name", e.getName());
-        ((ObjectNode) node).put("managerId", e.getManagerId());
-        ((ObjectNode) node).put("managerName", e.getManagerName());
-        ((ObjectNode) node).put("location", e.getLocation());
-        ((ObjectNode) node).put("title", e.getTitle());
-        ((ObjectNode) node).put("email", e.getEmail());
-        ((ObjectNode) node).put("type", e.getType());
-        ((ObjectNode) node).put("costCenter", e.getCostCenter());
-        ((ObjectNode) node).put("costCenterHierarchy", e.getCostCenterHierarchy());
+        ObjectNode node = mapper.createObjectNode();
+        node.put("id", e.getEmployeeId())
+                .put("name", e.getName())
+                .put("managerId", e.getManagerId())
+                .put("managerName", e.getManagerName())
+                .put("location", e.getLocation())
+                .put("title", e.getTitle())
+                .put("email", e.getEmail())
+                .put("type", e.getType())
+                .put("costCenter", e.getCostCenter())
+                .put("costCenterHierarchy", e.getCostCenterHierarchy());
+
         if (managerIds.contains(e.getEmployeeId())) {
             ArrayNode children = mapper.createArrayNode();
-            ((ObjectNode) node).set("children", children);
+            node.set("children", children);
         }
         return node;
     }
