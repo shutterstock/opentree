@@ -65,8 +65,8 @@ A custom report endpoint must be setup in Workday to generate a CSV report with 
 * `Title`: official title
 * `WorkEmail`: work email
 * `Type`: typically `Employee` or `Contingent`; this is used to filter out non-FT employees from the main view
-* `CostCenter`: this is likely
-* `CostCenterHierarchy`
+* `CostCenter`: cost center
+* `CostCenterHierarchy`: department 
 
 Fields can be configured in the [`Employee` model](src/main/java/com/shutterstock/oss/opentree/model/entity/Employee.java). For a given field in the CSV which is to be available on the front-end, the CSV column headers for those fields *MUST* be mapped to the model. [opencsv](http://opencsv.sourceforge.net/) is used to automatically map CSV fields to `Employee` fields via annotations (`@CsvBindByName`).
 
