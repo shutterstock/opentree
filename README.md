@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/shutterstock/opentree.svg?branch=master)](https://travis-ci.org/shutterstock/opentree)
 
 ![alt text](https://img.shields.io/badge/Java%2011.0.1-orange.svg?longCache=true&style=flat-square "Java 11.0.1")
-![alt text](https://img.shields.io/badge/Spring%20Boot-2.1.0--RC1-brightgreen.svg?longCache=true&style=flat-square "Spring Boot 2.1.0 RC1")
+![alt text](https://img.shields.io/badge/Spring%20Boot-2.2.2--RELEASE-brightgreen.svg?longCache=true&style=flat-square "Spring Boot 2.2.2 RELEASE")
 ![alt text](https://img.shields.io/badge/MariaDB-10.3-yellow.svg?longCache=true&style=flat-square "MariaDB 10.3")
 ![alt text](https://img.shields.io/badge/Hibernate-5.3.7--Final-red.svg?longCache=true&style=flat-square "Hibernate 5.3.7 Final")
 
