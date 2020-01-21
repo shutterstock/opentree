@@ -73,4 +73,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     List<Employee> findByActiveOrderByLastUpdatedDesc(boolean active);
 
     List<Employee> findAllOrderByEmployeeIdIn(List<String> ids);
+
+    @Query("SELECT e FROM Employee e WHERE e.employeeId = e.managerId")
+    List<Employee> findRoots();
 }

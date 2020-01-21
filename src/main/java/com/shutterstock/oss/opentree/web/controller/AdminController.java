@@ -97,4 +97,13 @@ public class AdminController {
         modelAndView.addObject("employees", employeeService.getInactiveEmployees());
         return modelAndView;
     }
+
+    @GetMapping(value = "/admin/roots")
+    @ResponseBody
+    public ModelAndView getRoots(HttpServletRequest request) {
+        logger.debug("getting all roots");
+        ModelAndView modelAndView = new ModelAndView("roots");
+        modelAndView.addObject("employees", employeeService.getRoots());
+        return modelAndView;
+    }
 }

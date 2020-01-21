@@ -377,4 +377,8 @@ public class EmployeeService {
         }
         return result;
     }
+
+    public List<Employee> getRoots() {
+        return employeeRepository.findRoots();
+    }
 }
