@@ -103,6 +103,7 @@ Several URL mappings exist to provide light, administrative functionality, manag
 * `/admin/dumpdb`:  (view: [`dump.html`](src/main/resources/templates/dump.html)) this will dump the raw contents of the database in an HTML table in CSV format
 * `/admin/dumpcache`: this will dump the contents of the cache as a hierarchical JSON document
 * `/admin/morgue`: (view: [`morgue.html`](src/main/resources/templates/morgue.html)) this will display a list of all employees who are no longer with the company (since the database was first created and populated)
+* `/admin/roots`: (view: [`roots.html`](src/main/resources/templates/roots.html)) this will display a list of all employees who report into themselves. This is useful to debug cases when Workday data has been misconfigured and the tree is not displaying in its entirety.
 
 As state is managed by the database, any drops or restarts in the Docker container will result in loss of historical state (e.g. updates, attrition). This will happen by default each time it is restarted if the database pre-configured with the Docker image is not replaced with an externalized database. However, this has no impact on its ability to display the current org chart.
 
