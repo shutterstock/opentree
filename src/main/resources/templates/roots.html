@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[(${companyName})] OpenTree: Tree Roots</title>
+    <!--/*/ <th:block th:include="fragments/head.html"></th:block> /*/-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/employee.css}"/>
+</head>
+<body>
+<div id="bg"></div>
+<div id="container">
+    <!--/*/ <th:block th:include="fragments/header.html"></th:block> /*/-->
+    <h1 id="title"><span class="color-red">employee</span><span class="color-gray">admin</span>: roots</h1>
+    <div id="updates">
+        <form th:action="@{/admin/employee}" method="POST" id="admin-form">
+            <table id="employeeTable">
+                <tr id="tableHeader">
+                    <th class="idColumn">ID</th>
+                    <th>Name</th>
+                    <th class="idColumn">Manager ID</th>
+                    <th>Manager Name</th>
+                    <th>Location</th>
+                    <th>Title</th>
+                    <th>Email</th>
+                    <th>Cost Center</th>
+                    <th>Cost Center Hierarchy</th>
+                    <th>Active</th>
+                    <th>Last Updated</th>
+                    <th></th>
+                </tr>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.employeeId}"></td>
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${employee.managerId}"></td>
+                    <td th:text="${employee.managerName}"></td>
+                    <td th:text="${employee.location}"></td>
+                    <td th:text="${employee.title}"></td>
+                    <td th:text="${employee.email}"></td>
+                    <td th:text="${employee.costCenter}"></td>
+                    <td th:text="${employee.costCenterHierarchy}"></td>
+                    <td th:text="${employee.active}"></td>
+                    <td th:text="${#dates.format(employee.lastUpdated, 'yyyy MMM dd')}"></td>
+                    <td></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>
