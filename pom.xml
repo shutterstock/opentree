@@ -19,7 +19,7 @@
         <opencsv.version>4.1</opencsv.version>
         <junit.version>4.12</junit.version>
         <guava.version>19.0</guava.version>
-        <h2db.version>1.4.197</h2db.version>
+        <h2db.version>2.1.210</h2db.version>
     </properties>
 
     <parent>
